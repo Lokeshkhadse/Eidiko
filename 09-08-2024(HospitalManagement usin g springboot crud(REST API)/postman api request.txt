@@ -1,0 +1,24 @@
+post (http://localhost:9090/api/patient)
+
+{
+    "dob" : "2024-08-15",
+    "contactno" : "7545675432",
+    "docName" : "Dr.ganesh",
+    "gender" : "female",
+    "medicalhistory" :"covid",
+    "name" : "hasina"   
+}
+
+get(http://localhost:9090/api/patient/1 --->(id))
+
+
+put(update) http://localhost:9090/api/patient/1
+{
+    "dob" : "2024-08-13",
+    "contactno" : "7545675432",
+    "docName" : "Dr.Doremon",
+    "gender" : "male",
+    "medicalhistory" :"khokla",
+    "name" : "nobita"
+}
+delete http://localhost:9090/api/patient/1

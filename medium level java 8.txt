@@ -1,0 +1,119 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.stream.Stream;
+class Main {
+    public static void main(String[] args) {
+       System.out.println("convert list to map");
+       List<String> list = Arrays.asList("hii","hello");
+       Map<String,Integer>mp = list.stream().collect(Collectors.toMap(name -> name, name -> name.length()));
+       System.out.println(mp);
+       
+       System.out.println("word count using map");
+       List<String> names = Arrays.asList("Ram", "Sham", "Ram", "Gita", "Sham", "Sham");
+       Map<String,Long> mp1 = names.stream().collect(Collectors.groupingBy(
+           name -> name , Collectors.counting()));
+           System.out.println(mp1);
+           
+     Long count = names.stream().filter(word -> word.startsWith("R")).count();
+     System.out.println("count " + count);
+       
+      System.out.println("partition number by even or odd");
+      List<Integer> partition = Arrays.asList(1,2,3,4,5);
+      Map<Boolean , List<Integer>> ans = partition.stream().
+                  collect(Collectors.partitioningBy((n) -> n % 2 == 0));
+      System.out.println(ans);
+      
+  System.out.println("Group strings by their length");
+       List<String> names1 = Arrays.asList("Java", "C", "Spring", "Go");
+       Map<Integer, List<String>> grouped = names1.stream()
+              .collect(Collectors.groupingBy(String::length));
+        System.out.println(grouped);
+      
+      
+      System.out.println("upper case");
+      Optional<String>toupper = Optional.of("Java8");
+         toupper.map(String::toUpperCase).ifPresent(System.out::println);
+
+   List<Integer> nums = Arrays.asList(10, 20, 5, 30);
+   int max = nums.stream().mapToInt(Integer::intValue).max().orElseThrow();
+   System.out.println(max);
+   
+   List<String> raw = Arrays.asList("Java", "", null, "Spring");
+  List<String> clean = raw.stream()
+                 .filter(word -> word != null)
+                 .filter(words -> words != "")
+                 .collect(Collectors.toList());
+                 
+                 System.out.println(clean);
+
+
+//convert stream to arr
+  Stream<Integer> stream = Stream.of(1,2,3);
+  Integer[] arr = stream.toArray(Integer[]::new);
+  System.out.println(Arrays.toString(arr));
+
+ //second lowest number
+  List<Integer> numbers = Arrays.asList(10, 5, 2, 8, 1);
+ int secondLowest = numbers.stream().sorted().skip(1).findFirst().orElse(-1);
+ System.out.println(secondLowest);
+ 
+ //second higest
+ int secondHighest = numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().orElse(111);
+ System.out.println(secondHighest);
+ 
+    //Find the longest string 
+    List<String> ad = Arrays.asList("Java", "Spring", "Microservices");
+    
+        String longest = ad.stream()
+                .sorted(Comparator.comparingInt(String::length).reversed())
+                .findFirst()
+                .orElse("default");
+    System.out.println(longest);
+    
+    
+    
+    List<Integer> nums11 = Arrays.asList(10, 20, 30);
+double avg = nums11.stream().mapToInt(i -> i).average().orElse(0);
+System.out.println(avg);
+
+ int maximum = nums11.stream().mapToInt(Integer::intValue).max().orElse(-1);
+ System.out.println(maximum);
+
+      
+      
+ Answers:-
+  convert list to map
+{hii=3, hello=5}
+word count using map
+{Sham=3, Gita=1, Ram=2}
+count 2
+partition number by even or odd
+{false=[1, 3, 5], true=[2, 4]}
+Group strings by their length
+{1=[C], 2=[Go], 4=[Java], 6=[Spring]}
+upper case
+JAVA8
+30
+[Java, Spring]
+[1, 2, 3]
+2
+8
+Microservices
+20.0
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    }
+}

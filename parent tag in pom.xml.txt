@@ -1,0 +1,8 @@
+why we use parent in pom.xml?
+->
+ parent tag is used to inherit configurations from parent class(project),
+it also contains depedency,plugins,config,and properties
+
+1.it reduce mutiple redunducy
+2.instead of using everywhere version set version in parent child inherit from parent
+3.consistent plugins and build config

@@ -1,0 +1,93 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.util.stream.Collectors;
+class Main {
+    public static void main(String[] args) {
+       List<String>list = Arrays.asList("a","b","c",null,"a");
+       
+       System.out.println("findFirst() element");
+       Optional<String> ans = list.stream().findFirst();
+       System.out.println(ans);
+       
+         System.out.println("give me non null value");
+       list.stream().filter(Objects::nonNull).forEach(System.out::println);
+       
+        System.out.println("another way to remove null");
+       list.stream().filter((letter) -> letter != null)
+                     .forEach(System.out::println);
+                     
+      List<Integer> number = Arrays.asList(1,22,3,4,7,90);
+      
+      System.out.println("max number" + "Integer");
+      int max = number.stream().max(Integer::compare).orElseThrow();
+      System.out.println(max);
+      
+      System.out.println("min value" + "Integer");
+      int min = number.stream().min(Integer::compare).orElseThrow();
+       int min1 = number.stream().mapToInt(Integer::intValue).min().orElseThrow();
+      System.out.println("min1 " + min1);
+      
+      int[] arr = {1,2,3,4,5};
+      int maxi = Arrays.stream(arr).max().orElseThrow();
+      System.out.println("maxi" + maxi);
+      
+      System.out.println("Use Optional to avoid null checks");
+      Optional<String> opt = Optional.ofNullable("java");
+      System.out.println(opt.orElse("default value"));
+      
+      System.out.println("Sum all numbers in a list using Integer");
+      List<Integer> ls = Arrays.asList(1,2,3);
+      int sum = ls.stream().mapToInt(Integer::intValue).sum();
+      System.out.println(sum);
+      
+      System.out.println("Sum all numbers in a list using int[] arr");
+       int[] arr1 = {1,2,3,4,5};
+       int sumy = Arrays.stream(arr1).sum();
+       System.out.println("sumy" + sumy);
+
+     System.out.println("distinct element");
+      List<Integer> dupli = Arrays.asList(1, 2, 2, 3);
+      dupli.stream().mapToInt(Integer::intValue).distinct().
+                   forEach(System.out::println);
+     
+     
+      System.out.println("Convert List<String> to List<Integer> of lengths");
+     List<String> len = Arrays.asList("Java", "Python", "C");
+     List<Integer> lengths = len.stream().map(String::length).collect(Collectors.toList());
+    System.out.println(lengths);
+    
+    System.out.println("get all number is +ve check");
+    List<Integer> numbers = Arrays.asList(1, 2, 3,-1,-2);
+      numbers.stream().filter((num) -> num >= 0).forEach(System.out::println);
+      
+    boolean check = numbers.stream().allMatch((n) -> n>0);
+    System.out.println(check);
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    }
+}

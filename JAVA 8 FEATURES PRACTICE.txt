@@ -1,0 +1,126 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+import java.util.stream.Collectors;
+class Main {
+    public static void main(String[] args) {
+        System.out.println("find duplicate element");
+         
+         List<Integer>list = Arrays.asList(1,2,3,2,4,5,4);
+         Set<Integer>seen = new HashSet<>();
+         
+         Set<Integer>dupli = list.stream().filter(n -> !seen.add(n))
+                      .collect(Collectors.toSet());
+        System.out.println(dupli);
+        
+        List<String> names = Arrays.asList("Java", "Spring", "API", "Microservice");
+          Map<Integer, List<String>> ans = names.stream()
+            .collect(Collectors.groupingBy(word -> word.length()));
+        System.out.println(ans);
+        
+        //anagram
+        String s = "ram";
+        String t = "mar";
+        boolean value = s.length() == t.length() &&
+                    s.chars().sorted().boxed().collect(Collectors.toList()).
+            equals(t.chars().sorted().boxed().collect(Collectors.toList()));
+            
+            System.out.println(value);
+      
+      //count of each word
+      String val = "java is java and java is powerful";
+      Map<String,Long> result = Arrays.stream(val.split(" "))
+                      .collect(Collectors.groupingBy(w -> w , Collectors.counting()));
+      System.out.println(result);
+      
+      //Find frequency of each character
+        Map<Character,Long> result1 = val.chars().mapToObj(c -> (char)c)
+                      .collect(Collectors.groupingBy(w -> w , Collectors.counting()));
+      System.out.println(result1);
+      
+      
+      //Capitalize first character of each word
+      List<String> words = Arrays.asList("java", "spring", "boot");
+      List<String> ans1 = words.stream().map(word -> word.substring(0,1).toUpperCase() + word.substring(1)).
+          collect(Collectors.toList());
+          
+    System.out.println("answer is  " + ans1);
+    
+    //calculate sum
+    List<Integer> list123 = Arrays.asList(1, 2, 3, 4);
+    int sum = list123.stream().mapToInt(Integer::intValue).sum();
+    System.out.println("sum is " + sum);
+
+
+//   //based on salary filter
+//   List<Employee> employees = Arrays.asList(
+//     new Employee("Ram", 30000),
+//     new Employee("Shyam", 50000),
+//     new Employee("Mohan", 25000)
+// );
+//     List<Employee> emp = employees.stream()
+//              .filter(e -> e.getSalary() > 25000)
+//              .collect(Collectors.toList());
+
+      
+      
+      //convert List<String> to List<Integer>
+      
+      List<String>ls = Arrays.asList("1","2","3");
+      List<Integer> convertInt = ls.stream().map(Integer::parseInt).collect(
+          Collectors.toList());
+     System.out.println(convertInt);
+     
+           List<String>makeupper = Arrays.asList("hey" , "hello");
+     List<String> resultToUpper = makeupper.stream().map(si -> si.toUpperCase()).collect(Collectors.toList());
+      System.out.println(resultToUpper);
+     
+      
+      String input = "jjavastream";
+          Character result222 = input.chars()
+                    .mapToObj(ch ->(char) ch)
+                    .filter(b -> input.indexOf(b) == input.lastIndexOf(b))
+                    .findFirst()
+                    .orElse(null);
+System.out.println(result222);
+
+      double avg = Arrays.asList(1,2,3,4,5)
+                     .stream()
+                        .mapToInt(Integer::intValue)
+                        .average()
+                        .orElse(0);
+System.out.println(avg);
+  
+  
+  //reverse String
+  String rev = "abc";
+  String revans = new StringBuilder(rev).reverse().toString();
+  System.out.println(revans);
+  
+  //palindrome
+  String pal = "heh";
+  boolean anspal = new StringBuilder(pal).reverse().toString().equals(pal);
+  System.out.println(anspal);
+  
+      
+    }
+}
+
+
+ANSWERS:-
+find duplicate element
+[2, 4]
+{3=[API], 4=[Java], 6=[Spring], 12=[Microservice]}
+true
+{java=3, powerful=1, and=1, is=2}
+{ =6, a=7, d=1, e=1, f=1, i=2, j=3, l=1, n=1, o=1, p=1, r=1, s=2, u=1, v=3, w=1}
+answer is  [Java, Spring, Boot]
+sum is 10
+[1, 2, 3]
+[HEY, HELLO]
+v
+3.0
+cba
+true
+
+=== Code Execution Successful ===

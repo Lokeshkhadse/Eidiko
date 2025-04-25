@@ -1,0 +1,66 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Main {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("byeeerrrr", "hii", "ram", "111", "byeeee", "zzz");
+        
+        // Filter out empty or null strings
+        list.stream()
+            .filter(word -> word != null && !word.isEmpty())
+            .forEach(System.out::println);
+        
+        // Group words by the first character
+        Map<Character, List<String>> groupedByFirstChar = list.stream()
+            .collect(Collectors.groupingBy(str -> str.charAt(0)));
+        System.out.println("Grouped by first character: " + groupedByFirstChar);
+        
+        // Count the occurrences of each word
+        Map<String, Long> wordCount = list.stream()
+            .collect(Collectors.groupingBy(name -> name, Collectors.counting()));
+        wordCount.forEach((key, value) -> {
+            System.out.println(key + " -> " + value);
+        });
+        
+        // Create a map with the word as the key and its length as the value
+        Map<String, Integer> wordLength = list.stream()
+            .collect(Collectors.toMap(word -> word, word -> word.length()));
+        System.out.println("Word length map: " + wordLength);
+        
+        // Group words by their length
+        Map<Integer, List<String>> groupedByLength = list.stream()
+            .collect(Collectors.groupingBy(String::length));
+        System.out.println("Grouped by length: " + groupedByLength);
+        
+        // Group words by their last character
+        list.stream()
+            .collect(Collectors.groupingBy(word -> word.charAt(word.length() - 1)))
+            .forEach((key, value) -> {
+                System.out.println(key + " ---> " + value);
+            });
+        
+        // Partition words by whether they contain a vowel
+        Map<Boolean, List<String>> partitionedByVowel = list.stream()
+            .collect(Collectors.partitioningBy(str -> str.matches(".*[aeiou].*")));
+        System.out.println("Partitioned by vowel: " + partitionedByVowel);
+        
+        // Filter out words containing numbers
+        list.stream()
+            .filter(nonum -> !nonum.matches(".*[0-9].*"))
+            .forEach(System.out::println);
+        
+        // Find the first word whose length is greater than 10
+        String firstLongWord = list.stream()
+            .filter(word -> word.length() > 10)
+            .findFirst()
+            .orElse("No word is greater than 10");
+        System.out.println("First word with length > 10: " + firstLongWord);
+        
+        // Sort an array and convert it into a list
+        String[] arr = {"no", "yes"};
+        List<String> sortedArrList = Arrays.stream(arr)
+            .sorted(Comparator.reverseOrder())
+            .collect(Collectors.toList());
+        System.out.println("Sorted array in reverse order: " + sortedArrList);
+    }
+}

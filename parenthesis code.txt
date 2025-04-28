@@ -1,0 +1,63 @@
+ import java.util.*;
+
+ class Main {
+
+    public static void main(String[] args) {
+ 
+       String s = "({[})";
+      
+       boolean ans = check(s);
+    
+        System.out.println("ans is -> " + ans);
+ 
+    }
+    
+   
+
+      public static boolean check(String s){
+ 
+            Stack<Character> stack = new Stack<>();
+  
+      
+        for(char c : s.toCharArray()){
+
+                 if(c == '(' || c == '{' || c == '['){
+  
+                  stack.push(c);
+          
+                    }else{
+ 
+                          if(stack.isEmpty()){
+                          return false;
+                          }
+ 
+                         char top = stack.pop();
+ 
+      
+         
+                if(top == '(' && c != ')'){
+ 
+                             return false;
+              
+                        }
+                         else if(top == '{' && c != '}'){
+ 
+                        return false;
+ 
+                          }
+                           else if(top == '[' && c != ']'){
+  
+                            return false;
+               
+                           }
+            
+                      }
+        
+               }
+     
+       return stack.isEmpty();
+   
+    }
+
+
+}

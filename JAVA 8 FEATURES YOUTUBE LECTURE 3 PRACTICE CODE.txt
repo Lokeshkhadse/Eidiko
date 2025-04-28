@@ -1,0 +1,204 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Emp {
+    private String name;
+    private String deptName;
+    private double salary;
+    
+    // Constructor
+    public Emp(String name, String deptName, double salary) {
+        this.name = name;
+        this.deptName = deptName;
+        this.salary = salary;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+    
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Emp{" + "name='" + name + '\'' + ", deptName='" + deptName + '\'' + ", salary=" + salary + '}';
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        List<Emp> empList = Arrays.asList(
+            new Emp("Alice", "HR", 50000),
+            new Emp("Bob", "Finance", 60000),
+            new Emp("David", "IT", 75000),
+            new Emp("Charlie", "IT", 70000),
+            new Emp("Eve", "Finance", 55000)
+        );
+        
+        long cnt  = empList.stream().filter(emp -> emp.getDeptName().equals("IT")).count();
+        System.out.println("HR dept count is " + cnt);
+       
+       empList.stream().map(e -> e.getName().substring(0,1).toLowerCase() + e.getName().substring(1).toUpperCase()).forEach(System.out::println);
+       System.out.println("********************");
+       
+       empList.stream().sorted(Comparator.comparingDouble(Emp::getSalary)).forEach(System.out::println);
+        System.out.println("********************");
+
+       
+        empList.stream().sorted(Comparator.comparingDouble(Emp::getSalary).reversed()).forEach(System.out::println);
+          System.out.println("********************");
+          
+        Optional<Emp> opt = empList.stream().filter(e -> e.getDeptName().equals("Finance")).findFirst();
+          if(opt.isPresent()){
+              System.out.println("present");
+          }else{
+              System.out.println("not present");
+          }
+         System.out.println("********************");
+      
+      Map<String,Double> mp = empList.stream().collect(Collectors.groupingBy(Emp::getDeptName , Collectors.summingDouble(Emp::getSalary)));
+     
+
+      System.out.println("total salary is of each dept " + mp);
+     System.out.println("********************");
+
+      
+    double avg = empList.stream().mapToDouble(Emp::getSalary).average().orElse(-1);
+    System.out.println("sum of all salary and total avg " + avg);
+      System.out.println("********************");
+      
+    empList.stream().collect(Collectors.toMap(Emp::getName,Emp::getSalary)).forEach((key,val) -> {
+        System.out.println("name is " + key + " salary is " + val);
+    });
+     System.out.println("********************");
+
+   
+   empList.stream().sorted(Comparator.comparingDouble(Emp::getSalary).reversed()).forEach(System.out::println);
+        System.out.println("********************");
+  
+        Optional<Emp> op = empList.stream()
+                .sorted(Comparator.comparingDouble(Emp::getSalary).reversed()).skip(1)
+                .findFirst(); 
+
+        if (op.isPresent()) {  
+            System.out.println("op is " + op.get()); 
+        } else {
+            System.out.println("not found");
+        }
+
+        System.out.println("********************");
+        
+       
+       String maxName = empList.stream().max(Comparator
+                       .comparingInt(e -> e.getName().length()))
+                       .map(Emp::getName)  
+                        .orElse("not found");
+        System.out.println("max length name is " + maxName);
+
+}
+}
+
+ANSWERS:-
+ HR dept count is 2
+
+
+aLICE
+
+bOB
+
+dAVID
+
+cHARLIE
+
+eVE
+
+********************
+
+
+Emp{name='Alice', deptName='HR', salary=50000.0}
+
+Emp{name='Eve', deptName='Finance', salary=55000.0}
+
+Emp{name='Bob', deptName='Finance', salary=60000.0}
+
+Emp{name='Charlie', deptName='IT', salary=70000.0}
+
+Emp{name='David', deptName='IT', salary=75000.0}
+
+
+********************
+
+Emp{name='David', deptName='IT', salary=75000.0}
+
+Emp{name='Charlie', deptName='IT', salary=70000.0}
+
+Emp{name='Bob', deptName='Finance', salary=60000.0}
+
+Emp{name='Eve', deptName='Finance', salary=55000.0}
+
+Emp{name='Alice', deptName='HR', salary=50000.0}
+
+********************
+
+present
+
+********************
+
+total salary is of each dept {Finance=115000.0, HR=50000.0, IT=145000.0}
+
+********************
+
+sum of all salary and total avg 62000.0
+
+********************
+
+name is Bob salary is 60000.0
+
+name is Eve salary is 55000.0
+
+name is Alice salary is 50000.0
+
+name is Charlie salary is 70000.0
+
+name is David salary is 75000.0
+
+********************
+
+Emp{name='David', deptName='IT', salary=75000.0}
+
+Emp{name='Charlie', deptName='IT', salary=70000.0}
+
+Emp{name='Bob', deptName='Finance', salary=60000.0}
+Emp{name='Eve', deptName='Finance', salary=55000.0}
+
+Emp{name='Alice', deptName='HR', salary=50000.0}
+
+********************
+
+op is Emp{name='Charlie', deptName='IT', salary=70000.0}
+
+********************
+
+max length name is Charlie
+
+
+=== Code Execution Successful === 
+

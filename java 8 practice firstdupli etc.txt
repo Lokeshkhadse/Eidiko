@@ -1,0 +1,158 @@
+import java.util.*;
+import java.util.stream.*;
+
+class Main {
+    public static void main(String[] args) {
+        
+        // 1. Max, Min, Sum, Average from list
+        List<Integer> listOfIntegers = Arrays.asList(45, 12, 56, 15, 24, 75, 31, 89);
+
+        int max = listOfIntegers.stream().mapToInt(Integer::intValue).max().orElse(-1);
+        System.out.println("Max number: " + max);
+
+        int min = listOfIntegers.stream().mapToInt(Integer::intValue).min().orElse(-1);
+        System.out.println("Min number: " + min);
+
+        int sum = listOfIntegers.stream().mapToInt(Integer::intValue).sum();
+        System.out.println("Sum: " + sum);
+
+        double avg = listOfIntegers.stream().mapToInt(Integer::intValue).average().orElse(-1);
+        System.out.println("Average: " + avg);
+
+        // 2. Merge and sort two arrays
+        int[] a = {4, 2, 7, 1};
+        int[] b = {8, 3, 9, 5};
+        int[] mergedSorted = IntStream.concat(Arrays.stream(a), Arrays.stream(b))
+                                      .sorted()
+                                      .toArray();
+        System.out.println("Sorted merged array: " + Arrays.toString(mergedSorted));
+
+        // 3. Word count using groupingBy
+        List<String> list = Arrays.asList("hii", "bye", "hii", "k");
+        Map<String, Long> wordCount = list.stream()
+                                          .collect(Collectors.groupingBy(n -> n, Collectors.counting()));
+        System.out.println("Word count: " + wordCount);
+
+        // 4. Character frequency
+        String s = "hiiihhsfzsg";
+        Map<Character, Long> charCount = s.chars()
+                                          .mapToObj(ca -> (char) ca)
+                                          .collect(Collectors.groupingBy(z -> z, Collectors.counting()));
+        System.out.println("Character count: " + charCount);
+
+        // 5. Group words by length
+        Map<Integer, List<String>> wordsByLength = list.stream()
+                                                       .collect(Collectors.groupingBy(String::length));
+        System.out.println("Words grouped by length: " + wordsByLength);
+
+        // 6. Joining list into string
+        String joined = list.stream()
+                            .collect(Collectors.joining(",", "[", "]"));
+        System.out.println("Joined string: " + joined);
+
+        // 7. Sum of digits in an integer
+        int number = 156203;
+        int sumOfDigits = Stream.of(String.valueOf(number).split(""))
+                                .collect(Collectors.summingInt(Integer::parseInt));
+        System.out.println("Sum of digits: " + sumOfDigits);
+
+        // 8. Common elements in two lists
+        List<Integer> list1 = Arrays.asList(71, 21, 34, 89, 56, 28);
+        List<Integer> list2 = Arrays.asList(12, 56, 17, 21, 94, 34);
+        System.out.print("Common elements: ");
+        list1.stream().filter(list2::contains).forEach(System.out::println);
+
+        // 9. Reverse each word in a sentence
+        String str = "Java Concept Of The Day";
+        String reversedWords = Arrays.stream(str.split(" "))
+                                     .map(word -> new StringBuilder(word).reverse())
+                                     .collect(Collectors.joining(" ", "[", "]"));
+        System.out.println("Reversed words: " + reversedWords);
+
+        // 10. Reverse sorted array
+        int[] array = {5, 1, 7, 3, 9, 6};
+        int[] reverseSortedArr = Arrays.stream(array)
+                                       .boxed()
+                                       .sorted(Comparator.reverseOrder())
+                                       .mapToInt(Integer::intValue)
+                                       .toArray();
+        System.out.println("Reverse sorted array: " + Arrays.toString(reverseSortedArr));
+
+        // 11. Reverse original array (without sorting)
+        int[] reversedArr = IntStream.range(1, array.length)
+                                     .map(i -> array[array.length - i])
+                                     .toArray();
+        System.out.println("Reversed array: " + Arrays.toString(reversedArr));
+
+        // 12. Print even numbers from 1 to 20
+        System.out.println("Even numbers from 1 to 20:");
+        IntStream.rangeClosed(1, 20)
+                 .filter(i -> i % 2 == 0)
+                 .forEach(System.out::println);
+
+        // 13. Check if string is palindrome
+        String palin = "mam";
+        boolean isPalindrome = palin.equals(new StringBuilder(palin).reverse().toString());
+        System.out.println("Is palindrome: " + isPalindrome);
+
+        // 14. Duplicate characters from string
+        String inputString = "Java Concept Of The Day".replaceAll("\\s+", "").toLowerCase();
+        Set<Character> unique = new HashSet<>();
+        Set<Character> duplicates = inputString.chars()
+                                               .mapToObj(c -> (char) c)
+                                               .filter(c -> !unique.add(c))
+                                               .collect(Collectors.toSet());
+        System.out.println("Duplicate characters: " + duplicates);
+
+        // 15. First duplicate character
+        String inputString1 = "Java Concept Of The Day".toLowerCase();
+        Set<Character> unique1 = new HashSet<>();
+        Character firstDuplicateChar = inputString1.chars()
+                                                   .mapToObj(c -> (char) c)
+                                                   .filter(c -> !unique1.add(c))
+                                                   .findFirst()
+                                                   .orElse(null);
+        if (firstDuplicateChar != null) {
+            System.out.println("First duplicate character: " + firstDuplicateChar);
+        } else {
+            System.out.println("No duplicate character found");
+        }
+
+        // 16. Last element in the list
+        int lastElement = listOfIntegers.stream()
+                                        .mapToInt(Integer::intValue)
+                                        .skip(listOfIntegers.size() - 1)
+                                        .findFirst()
+                                        .orElse(-1);
+        System.out.println("Last element: " + lastElement);
+    }
+}
+
+
+Answers : -
+
+Max number: 89
+Min number: 12
+Sum: 347
+Average: 43.375
+Sorted merged array: [1, 2, 3, 4, 5, 7, 8, 9]
+Word count: {k=1, bye=1, hii=2}
+Character count: {a=2, s=2, z=1, f=1, g=1, h=2, i=3}
+Words grouped by length: {1=[k], 3=[hii, bye], 2=[hi]}
+Joined string: [hii,bye,hii,k]
+Sum of digits: 17
+Common elements: 21
+34
+56
+Reversed words: [avaJ tpecnoC fO ehT yaD]
+Reverse sorted array: [9, 7, 6, 5, 3, 1]
+Reversed array: [6, 9, 3, 7, 1, 5]
+Even numbers from 1 to 20:
+2
+4
+...
+Is palindrome: true
+Duplicate characters: [a, c, e, o, f, t, v, h, d, y]
+First duplicate character: a
+Last element: 89
+

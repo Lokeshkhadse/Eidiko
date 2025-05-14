@@ -1,0 +1,223 @@
+import java.util.*;
+import java.util.stream.*;
+
+class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 1, 3, 4);
+
+        // ? 1. Distinct elements
+        System.out.println("Distinct:");
+        list.stream().distinct().forEach(System.out::println); // 1, 2, 3, 4
+
+        // ? 2. Sum of all elements
+        int sum = list.stream().mapToInt(Integer::intValue).sum();
+        System.out.println("Sum -> " + sum); // 14
+
+        // ? 3. Average of all elements
+        double avg = list.stream().mapToInt(Integer::intValue).average().orElse(-1.0);
+        System.out.println("Average -> " + avg); // 2.33...
+
+        // ? 4. Maximum value
+        int max = list.stream().mapToInt(Integer::intValue).max().orElse(-1);
+        System.out.println("Max -> " + max); // 4
+
+        // ? 5. Minimum value
+        int min = list.stream().mapToInt(Integer::intValue).min().orElse(-1);
+        System.out.println("Min -> " + min); // 1
+
+        // ? 6. All elements even?
+        boolean allEven = list.stream().allMatch(n -> n % 2 == 0);
+        System.out.println("All even -> " + allEven); // false
+
+        // ? 7. Frequency of each number
+        Map<Integer, Long> freqMap = list.stream().collect(Collectors.groupingBy(i -> i, Collectors.counting()));
+        System.out.println("Frequency map -> " + freqMap); // {1=2, 2=1, 3=2, 4=1}
+
+        // ? 8. Partition into even and odd
+        Map<Boolean, List<Integer>> partition = list.stream().collect(Collectors.partitioningBy(n -> n % 2 == 0));
+        System.out.println("Partition even/odd -> " + partition); // true=[2, 4], false=[1, 3, 1, 3]
+
+        // ? 9. Count of words
+        List<String> words = Arrays.asList("hii", "bye", "hello", "shamraj", "bye");
+        Map<String, Long> wordCount = words.stream().collect(Collectors.groupingBy(w -> w, Collectors.counting()));
+        System.out.println("Word count -> " + wordCount); // {shamraj=1, hii=1, hello=1, bye=2}
+
+        // ? 10. Convert list to map with word length
+        Map<String, Integer> wordLengthMap = words.stream().distinct().collect(Collectors.toMap(w -> w, w -> w.length()));
+        System.out.println("Word to length map -> " + wordLengthMap); // {shamraj=7, hii=3, hello=5, bye=3}
+
+        // ? 11. Convert list to set
+        Set<String> wordSet = words.stream().collect(Collectors.toSet());
+        System.out.println("Set from list -> " + wordSet); // [shamraj, hii, hello, bye]
+
+        // ? 12. Filter null and empty strings
+        List<String> testList = Arrays.asList("ram", "sham", null, "", "ok");
+        System.out.println("Filtered non-empty & non-null:");
+        testList.stream().filter(Objects::nonNull).filter(s -> !s.isEmpty()).forEach(System.out::println); // ram, sham, ok
+
+        // ? 13. Character count in string
+        String str = "hiahi";
+        Map<Character, Long> charCount = str.chars().mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+        System.out.println("Char count -> " + charCount); // {h=2, i=2, a=1}
+
+        // ? 14. Longest string
+        String longest = words.stream().max(Comparator.comparingInt(String::length)).orElse("default");
+        System.out.println("Longest word -> " + longest); // shamraj
+
+        // ? 15. Second highest number
+        int secondHighest = list.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().orElse(-1);
+        System.out.println("2nd highest -> " + secondHighest); // 3
+
+        // ? 16. Second lowest number
+        int secondLowest = list.stream().mapToInt(i -> i).distinct().sorted().skip(1).findFirst().orElse(-1);
+        System.out.println("2nd lowest -> " + secondLowest); // 2
+
+        // ? 17. First 3 sorted numbers
+        System.out.println("First 3 sorted:");
+        list.stream().mapToInt(i -> i).sorted().limit(3).forEach(System.out::println); // 1, 1, 2
+
+        // ? 18. Join strings with comma
+        String joined = words.stream().collect(Collectors.joining(","));
+        System.out.println("Joined string -> " + joined); // hii,bye,hello,shamraj,bye
+
+        // ? 19. Group words by length
+        System.out.println("Group by length:");
+        words.stream().collect(Collectors.groupingBy(String::length))
+                .forEach((len, group) -> System.out.println(len + " -> " + group));
+        // Output: 3 -> [hii, bye, bye] etc.
+
+        // ? 20. Anagram check
+        String a = "abc";
+        String b = "cba";
+        boolean isAnagram = a.length() == b.length() &&
+                a.chars().sorted().boxed().collect(Collectors.toList())
+                        .equals(b.chars().sorted().boxed().collect(Collectors.toList()));
+        System.out.println("Is Anagram -> " + isAnagram); // true
+
+        // ? 21. Segregate 0s and 1s
+        List<Integer> binaryList = Arrays.asList(1, 1, 0, 0, 1, 0, 1);
+        List<Integer> segregated = Stream.concat(
+                binaryList.stream().filter(n -> n == 0),
+                binaryList.stream().filter(n -> n != 0)
+        ).collect(Collectors.toList());
+        System.out.println("0s and 1s segregated -> " + segregated); // [0, 0, 0, 1, 1, 1, 1]
+
+        // ? 22. Print even numbers from 10 to 100
+        System.out.println("Even numbers from 10 to 100:");
+        IntStream.rangeClosed(10, 100).filter(n -> n % 2 == 0).forEach(n -> System.out.print(n + " "));
+        System.out.println();
+
+        // ? 23. Sum of IntStream.range (1 to 4)
+        int sumRange = IntStream.range(1, 5).sum(); // 1+2+3+4
+        System.out.println("Sum (range 1-4) -> " + sumRange); // 10
+
+        // ? 24. Sum of IntStream.rangeClosed (1 to 5)
+        int sumRangeClosed = IntStream.rangeClosed(1, 5).sum(); // 1+2+3+4+5
+        System.out.println("Sum (rangeClosed 1-5) -> " + sumRangeClosed); // 15
+
+        // ? 25. Palindrome check (correct way)
+        String palindrome = "mam";
+        boolean isPalindrome = palindrome.equals(new StringBuilder(palindrome).reverse().toString());
+        System.out.println("Is palindrome -> " + isPalindrome); // true
+
+        // ? 26. Incorrect palindrome using sorted (not reverse)
+        String reversedWrong = palindrome.chars()
+                .mapToObj(c -> (char) c)
+                .sorted(Comparator.reverseOrder())
+                .map(String::valueOf)
+                .collect(Collectors.joining());
+        boolean checkPalindromeWrong = palindrome.equals(reversedWrong);
+        System.out.println("Is palindrome using sorted? -> " + checkPalindromeWrong); // false
+
+        // ? 27. Get last element from list using stream
+        int lastElement = list.stream()
+                .skip(list.size() - 1)
+                .findFirst()
+                .orElse(-1);
+        System.out.println("Last element -> " + lastElement); // 4
+    }
+
+
+        // 28 each word reverse
+   
+             List<String> reverseWord = word.stream()
+                                      .map(names -> new StringBuilder(names).reverse().toString())
+                                       .collect(Collectors.toList());
+   
+                 System.out.print(" " + reverseWord +" ");
+
+         
+
+        //29 Find common elements in two lists
+                
+            List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
+       
+             List<Integer> list2 = Arrays.asList(3, 4, 5, 6, 7);
+        
+                 List<Integer> common = list1.stream().filter(list2::contains)
+ .collect(Collectors.toList());
+      
+        System.out.println("Common elements: " + common); // [3, 4, 5]
+
+       //30 every word reverse
+            String s = " hii my name is loki";
+ 
+      
+       String news = Arrays.stream(s.split(" ")).map(name -> new StringBuilder(name).reverse().toString())
+                             .collect(Collectors.joining(" ","[","]"));
+       
+                    System.out.println(news);
+       
+      
+        
+        //31 reverse string
+          String newrev =  new StringBuilder(s).reverse().toString();
+      
+          System.out.println(newrev);
+}
+
+
+
+
+Distinct:
+1
+2
+3
+4
+Sum -> 14
+Average -> 2.3333333333333335
+Max -> 4
+Min -> 1
+All even -> false
+Frequency map -> {1=2, 2=1, 3=2, 4=1}
+Partition even/odd -> {false=[1, 3, 1, 3], true=[2, 4]}
+Word count -> {shamraj=1, hii=1, hello=1, bye=2}
+Word to length map -> {shamraj=7, hii=3, hello=5, bye=3}
+Set from list -> [shamraj, hii, hello, bye]
+Filtered non-empty & non-null:
+ram
+sham
+ok
+Char count -> {h=2, i=2, a=1}
+Longest word -> shamraj
+2nd highest -> 3
+2nd lowest -> 2
+First 3 sorted:
+1
+1
+2
+Joined string -> hii,bye,hello,shamraj,bye
+Group by length:
+3 -> [hii, bye, bye]
+5 -> [hello]
+7 -> [shamraj]
+Is Anagram -> true
+0s and 1s segregated -> [0, 0, 0, 1, 1, 1, 1]
+Even numbers from 10 to 100:
+10 12 14 ... 100
+Sum (range 1-4) -> 10
+Sum (rangeClosed 1-5) -> 15
+Is palindrome -> true
+Is palindrome using sorted? -> false
+Last element -> 4
